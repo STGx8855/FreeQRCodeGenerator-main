@@ -1,0 +1,113 @@
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>vCard QR — QR Platform</title>
+
+  <!-- shared styling (global) -->
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+
+  <!-- QR library -->
+  <script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+</head>
+
+  <!-- shared helpers + page script -->
+  <script src="../assets/js/common.js" defer></script>
+  <script src="../assets/js/vcard.js" defer></script>
+</body>
+
+  <div class="container">
+    <!-- NOTE: per request we removed "Back to Home" link — mobile users can use browser navigation -->
+    <div class="card">
+      <h1>Generate vCard QR</h1>
+
+      <div id="formInner">
+
+        <div class="section">
+          <label>Full Name:</label>
+          <input id="vc-name" type="text" placeholder="Your Full Name"/>
+        </div>
+
+        <div class="section">
+          <label>Phone (local):</label>
+          <div class="small-input-row">
+            <input id="vc-code" list="country-codes" value="+91" class="code-input" maxlength="4" />
+            <input id="vc-phone" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="15" placeholder="XXXXXXXXXX" class="flex-input" />
+          </div>
+        </div>
+
+        <div class="section">
+          <label>Email:</label>
+          <input id="vc-email" type="email" placeholder="you@example.com"/>
+        </div>
+
+        <div class="section">
+          <label>Organisation (optional):</label>
+          <input id="vc-org" type="text" placeholder="Company / College"/>
+        </div>
+
+        <div class="section">
+          <label class="label-title">QR Style</label>
+          <div class="style-toggle">
+            <button class="style-btn active" data-style="basic">Basic (B&W)</button>
+            <button class="style-btn" data-style="colored">Coloured</button>
+          </div>
+        </div>
+
+        <div class="section color-section hidden" id="color-section">
+          <label>Choose Color:</label>
+          <input type="color" id="colorPicker" value="#00f2ff"/>
+          <label>Choose Gradient Color (optional):</label>
+          <input type="color" id="gradientPicker" value="#ff00c8"/>
+        </div>
+
+        <div class="section">
+          <label>Add logo (optional):</label>
+          <div class="file-input" id="logoFileInput">
+            <input id="logoUpload" type="file" accept="image/*" aria-label="Upload logo" />
+            <button type="button" id="logoBtn" class="file-btn" aria-haspopup="dialog" aria-controls="logoUpload">
+              <!-- small icon -->
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="margin-right:8px">
+                <path d="M12 3v10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5 11l7-8 7 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M21 21H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Upload logo
+            </button>
+
+            <span id="logoName" class="file-name">No file chosen</span>
+            <button type="button" id="logoClear" class="file-clear hidden" aria-label="Clear selected file">✕</button>
+          </div>
+        </div>
+
+        <div class="section buttons-row">
+          <button id="btn-generate"><span class="btn-label">Generate QR</span></button>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="qrOutput" class="qr-wrapper"></div>
+    <div id="downloadWrapper" class="download-wrapper hidden">
+      <button id="btn-download"><span class="btn-label">Download OR CODE</span></button>
+      <button id="btn-share"><span class="btn-label">Share QR Code</span></button>
+    </div>
+  </div>
+
+  <!-- country codes datalist (shared small set; extend in one place if you like) -->
+  <datalist id="country-codes">
+    <option value="+91">India (+91)</option>
+    <option value="+1">USA (+1)</option>
+    <option value="+44">UK (+44)</option>
+    <option value="+61">Australia (+61)</option>
+    <option value="+81">Japan (+81)</option>
+    <option value="+49">Germany (+49)</option>
+    <option value="+33">France (+33)</option>
+    <option value="+7">Russia (+7)</option>
+    <option value="+86">China (+86)</option>
+  </datalist>
+
+  <!-- shared helpers + page script -->
+  <script src="/assets/js/common.js"></script>
+  <script src="/assets/js/vcard.js"></script>
+</body>
+</html>

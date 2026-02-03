@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>QR Platform — Home</title>
+
+  <!-- Shared stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css"/>
+
+  <!-- QR library -->
+  <script
+    src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"
+    defer>
+  </script>
+</head>
+
+<body>
+  <div class="bg-gradient"></div>
+
+  <div class="container">
+    <h1>Free QR Code Generator</h1>
+    <p class="subtitle">• Lifetime QR codes • No expiry</p>
+
+    <div class="card">
+
+      <!-- ================= CHOICE TILES ================= -->
+      <div class="choose-root" id="choiceRoot">
+        <div
+          class="choose-tile"
+          id="choose-dynamic"
+          role="button"
+          tabindex="0"
+          aria-pressed="false"
+        >
+          <div class="tile-head">Dynamic QRs</div>
+          <br><br>
+          <div class="tile-head">
+            <span class="badge badge-green">with tracking</span>
+          </div>
+        </div>
+
+        <div
+          class="choose-tile"
+          id="choose-static"
+          role="button"
+          tabindex="0"
+          aria-pressed="false"
+        >
+          <div class="tile-head">Static QRs</div>
+          <br><br>
+          <div class="tile-head">
+            <span class="badge badge-orange">no tracking</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= SUBTYPE PANEL ================= -->
+      <div id="subtypePanel" class="subtype-panel hidden">
+
+        <!-- Dynamic QR types -->
+        <div class="subtype-grid hidden" id="subtype-dynamic">
+          <button class="subtype-btn" data-sub="dyn-website">Website</button>
+          <button class="subtype-btn" data-sub="dyn-images">Images</button>
+          <button class="subtype-btn" data-sub="dyn-video">Video</button>
+          <button class="subtype-btn" data-sub="dyn-social">Social Media</button>
+          <button class="subtype-btn" data-sub="dyn-business">Business</button>
+          <button class="subtype-btn" data-sub="dyn-apps">Apps</button>
+          <button class="subtype-btn" data-sub="dyn-menu">Menu</button>
+          <button class="subtype-btn" data-sub="dyn-pdf">PDF</button>
+          <button class="subtype-btn" data-sub="dyn-vcardplus">vCard Plus</button>
+          <button class="subtype-btn" data-sub="dyn-links">List of links</button>
+          <button class="subtype-btn" data-sub="dyn-coupon">Coupon</button>
+          <button class="subtype-btn" data-sub="dyn-event">Event</button>
+          <button class="subtype-btn" data-sub="dyn-feedback">Feedback</button>
+        </div>
+
+        <!-- Static QR types -->
+        <div class="subtype-grid hidden" id="subtype-static">
+          <button class="subtype-btn" data-type="vcard">vCard</button>
+          <button class="subtype-btn" data-type="whatsapp">WhatsApp</button>
+          <button class="subtype-btn" data-type="email">Email</button>
+          <button class="subtype-btn" data-type="text">Text</button>
+          <button class="subtype-btn" data-type="url">URL</button>
+          <button class="subtype-btn" data-type="wifi">Wi-Fi</button>
+        </div>
+      </div>
+
+      <!-- ================= INSTANT URL QR ================= -->
+      <div class="section instant-section" style="margin-top:18px;">
+        <h2 class="instant-heading">Website URL ⟶ QR Code</h2>
+
+        <div class="input-with-paste">
+          <input
+            id="instant-input-url"
+            type="text"
+            placeholder="Paste a link (https://...)"
+          />
+          <button type="button" id="instant-btn-paste" class="paste-btn">
+            Paste
+          </button>
+        </div>
+
+        <label class="label-title" style="margin-top:12px;">Style</label>
+        <div class="style-toggle" style="margin-top:8px;">
+          <button
+            id="instant-style-basic"
+            class="style-btn active"
+            data-style="basic"
+          >
+            Basic (B&W)
+          </button>
+          <button
+            id="instant-style-colored"
+            class="style-btn"
+            data-style="colored"
+          >
+            Coloured
+          </button>
+        </div>
+
+        <div
+          id="instant-color-section"
+          class="color-section hidden"
+          style="margin-top:10px;"
+        >
+          <label>Choose Color:</label>
+          <input type="color" id="instant-colorPicker" value="#00f2ff"/>
+
+          <label>Choose Gradient Color (optional):</label>
+          <input type="color" id="instant-gradientPicker" value="#ff00c8"/>
+        </div>
+
+        <div class="section buttons-row" style="margin-top:14px;">
+          <button id="instant-btn-generate">Generate QR</button>
+        </div>
+
+        <!-- QR Output -->
+        <div
+          id="instant-qrOutput"
+          class="qr-wrapper instant-qrOutput"
+          aria-live="polite"
+          style="margin-top:22px;"
+        ></div>
+
+        <!-- Post-generate actions -->
+        <div
+          id="instant-downloadWrapper"
+          class="download-wrapper hidden"
+          style="margin-top:18px;"
+        >
+          <div class="instant-action-buttons">
+
+            <label
+              class="file-btn file-btn-inline"
+              id="instant-addphoto-btn"
+              style="display:none; cursor:pointer;"
+            >
+              <input
+                id="instant-logoUpload"
+                type="file"
+                accept="image/*"
+                style="display:none;"
+              />
+              Add Photo
+            </label>
+
+            <button id="instant-btn-download" class="download-btn">
+              Download QR Code
+            </button>
+            <button id="instant-btn-share" class="download-btn">
+              Share QR Code
+            </button>
+          </div>
+
+          <div
+            id="instant-logoName"
+            class="file-name"
+            style="margin-top:10px; display:none;"
+          >
+            No file chosen
+          </div>
+        </div>
+      </div>
+      <!-- =============== END INSTANT URL QR =============== -->
+
+    </div> <!-- /.card -->
+
+    <!-- ================= FOOTER ================= -->
+    <footer style="margin-top:18px; opacity:.8; font-size:13px;">
+      <div>Coding Enthusiast — QR Platform</div>
+
+      <div
+        class="footer-links"
+        style="
+          margin-top:28px;
+          display:flex;
+          justify-content:center;
+          flex-wrap:wrap;
+          gap:14px;
+          font-size:14px;
+          opacity:0.9;
+        "
+      >
+        <a href="about.html" class="footer-link" style="color:white; text-decoration:none;">
+          About Us
+        </a>
+        <a href="contact.html" class="footer-link" style="color:white; text-decoration:none;">
+          Contact
+        </a>
+        <a href="privacy.html" class="footer-link" style="color:white; text-decoration:none;">
+          Privacy Policy
+        </a>
+        <a href="terms.html" class="footer-link" style="color:white; text-decoration:none;">
+          Terms & Conditions
+        </a>
+      </div>
+    </footer>
+    <!-- ================= END FOOTER ================= -->
+
+  </div> <!-- /.container -->
+
+  <!-- Shared scripts -->
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/home.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,690 @@
+/* -------------------------
+   Updated style.css (final)
+   -------------------------
+   Merged your stylesheet with the "two-tile" UI + subtype styles,
+   file input styles, QR animation and responsive tweaks.
+*/
+
+/* base reset */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* AI gradient background */
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #111827 0, #020617 40%, #000 100%);
+  color: #e5f4ff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 16px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.bg-gradient {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(0, 242, 255, 0.22) 0, transparent 45%),
+    radial-gradient(circle at 80% 80%, rgba(244, 63, 94, 0.18) 0, transparent 45%);
+  filter: blur(40px);
+  opacity: 0.9;
+  z-index: -1;
+}
+
+.container {
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  animation: fadeIn 0.7s ease-out;
+}
+
+h1 {
+  margin-bottom: 6px;
+  font-size: 32px;
+  color: #7dfcff;
+  text-shadow: 0 0 18px rgba(45, 212, 191, 0.9);
+  letter-spacing: 0.03em;
+}
+
+.subtitle {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-bottom: 18px;
+}
+
+/* primary card */
+.card {
+  margin-top: 10px;
+  padding: 22px 22px 18px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.85));
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow:
+    0 20px 45px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(148, 163, 184, 0.35);
+  backdrop-filter: blur(18px);
+}
+
+/* form section */
+.section {
+  text-align: left;
+  margin-top: 12px;
+}
+
+.label-title {
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+/* ---------- NEW: Choice tiles (Dynamic / Static) ---------- */
+.choose-root {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  padding: 6px;
+  margin-bottom: 10px;
+}
+
+.choose-tile {
+  flex: 1;
+  max-width: 360px;
+  min-height: 120px;
+  border-radius: 14px;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  border: 1px solid rgba(148,163,184,0.04);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s;
+  text-align: left;
+}
+.choose-tile:focus { outline: none; box-shadow:0 0 0 4px rgba(34,211,238,0.06); }
+.choose-tile:hover { transform: translateY(-6px); box-shadow: 0 28px 80px rgba(0,0,0,0.5); border-color: rgba(34,211,238,0.09); }
+
+.tile-head {
+  font-weight:700;
+  font-size:26px;
+  color:#cfffff;
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.tile-desc { margin-top:8px; font-size:13px; color: #bcdfe6; opacity:0.95; }
+
+.badge { font-size:11px; padding:4px 8px; border-radius:10px; font-weight:600; }
+.badge-green { background: #d8f8ee; color:#063a33; }
+.badge-orange { background:#ffe6d0; color:#5a2b00; }
+
+/* Subtype panel/grid (hidden until selection) */
+.subtype-panel { margin-top:12px; padding:12px; }
+.subtype-grid { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+.subtype-btn {
+  background: rgba(255,255,255,0.02);
+  border-radius: 10px;
+  border: 1px solid rgba(148,163,184,0.06);
+  padding: 10px 14px;
+  min-width:120px;
+  cursor:pointer;
+  color: #dff8ff;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+.subtype-btn:hover { transform: translateY(-3px); box-shadow:0 8px 20px rgba(0,0,0,0.3); }
+
+/* hidden helper */
+.hidden { display: none !important; }
+
+/* ---------- TYPE TABS (legacy - if any kept) ---------- */
+.type-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.type-tab {
+  flex: 1 1 calc(33% - 6px);
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.7);
+  color: #e5f4ff;
+  font-size: 11px;
+  padding: 6px 4px;
+  cursor: pointer;
+  transition: all 0.18s ease-out;
+}
+
+.type-tab.active {
+  background: radial-gradient(circle at top left, #22d3ee, #2563eb);
+  border-color: transparent;
+  color: #02101a;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
+}
+
+/* ---------- Inputs ---------- */
+
+label {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 9px 11px;
+  margin-top: 6px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #f9fafb;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  border-radius: 10px;
+  outline: none;
+  font-size: 13px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+  background: rgba(15, 23, 42, 0.98);
+}
+
+/* small adjustments for email page (if not already present) */
+.section textarea { min-height: 84px; resize: vertical; }
+.section .label-title { margin-top: 12px; }
+
+
+/* URL input with paste button */
+
+.input-with-paste {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.input-with-paste input {
+  flex: 1;
+  margin-top: 0;
+}
+
+.paste-btn {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.95);
+  color: #e5f4ff;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.paste-btn:hover {
+  background: rgba(30, 64, 175, 0.9);
+  border-color: #38bdf8;
+  transform: translateY(-1px);
+}
+
+/* small row (code + number) */
+.small-input-row { display:flex; gap:8px; margin-top:6px; align-items:center; }
+.code-input { width:86px; padding:9px; border-radius:10px; border:1px solid rgba(148,163,184,0.08); background:rgba(8,12,15,0.6); color:#eafcff; text-align:center; }
+.flex-input { flex:1; padding:11px; border-radius:10px; border:1px solid rgba(148,163,184,0.08); background:rgba(8,12,15,0.6); color:#eafcff; }
+
+/* small input row: country code + phone number */
+.small-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+/* country code input (small) */
+.code-input {
+  width: 88px;               /* small fixed width */
+  padding: 9px 10px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* main phone input expands */
+.flex-input {
+  flex: 1;
+  min-width: 0; /* prevents overflow on small screens */
+}
+
+/* ensure code + number stack nicely on narrow screens */
+@media (max-width: 420px) {
+  .small-input-row { flex-direction: column; align-items: stretch; gap: 8px; }
+  .code-input { width: 100%; text-align: left; }
+}
+
+
+/* style toggle */
+.style-toggle { display:flex; gap:8px; margin-top:8px; }
+.style-btn {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(15, 23, 42, 0.7);
+  color: #e5f4ff;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.18s ease-out;
+}
+.style-btn.active {
+  background: radial-gradient(circle at top left, #22c55e, #22d3ee);
+  border-color: transparent;
+  color: #01130c;
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.7);
+}
+
+/* ---------- Buttons ---------- */
+
+.buttons-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.buttons-row button,
+.download-wrapper button {
+  width: 100%;
+  padding: 11px;
+  background: linear-gradient(135deg, #22d3ee, #0ea5e9);
+  border: none;
+  color: #021018;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow:
+    0 15px 35px rgba(56, 189, 248, 0.4),
+    0 0 0 1px rgba(8, 47, 73, 0.8);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Instant QR action row: keep Add/Change Photo next to Download & Share */
+#instant-downloadWrapper {
+  display: flex;
+  gap: 10px;
+  justify-content: center; /* center horizontally under QR */
+  align-items: center;
+  margin-top: 12px;
+}
+
+/* make sure buttons are compact and aligned */
+#instant-downloadWrapper button,
+#instant-downloadWrapper .btn {
+  padding: 8px 12px;
+  font-size: 13px;
+  border-radius: 12px;
+}
+
+/* style for Add/Change Photo specifically */
+#instant-addphoto-btn {
+  display: none; /* default hidden until QR generated */
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #f8fafc, #eef2ff); /* subtle */
+  color: #021018;
+  border: 1px solid rgba(8,47,73,0.12);
+}
+
+/* slight visual when photo exists */
+#instant-addphoto-btn.has-photo {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* make sure file-name UI sits next to the button (if shown) */
+#instant-logoName {
+  font-size: 13px;
+  opacity: 0.95;
+  margin-left: 6px;
+}
+
+/* responsive tweak: stack on very small screens */
+@media (max-width: 420px) {
+  #instant-downloadWrapper { flex-direction: column; gap: 8px; }
+}
+
+
+.buttons-row button:hover,
+.download-wrapper button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow:
+    0 18px 40px rgba(56, 189, 248, 0.5),
+    0 0 0 1px rgba(8, 47, 73, 0.95);
+}
+
+.buttons-row button:active,
+.download-wrapper button:active {
+  transform: translateY(0);
+  box-shadow:
+    0 8px 22px rgba(56, 189, 248, 0.35),
+    0 0 0 1px rgba(8, 47, 73, 0.9);
+}
+
+/* ---------- Modern file input (glass + neon) ---------- */
+
+.file-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 8px;
+  position: relative;
+}
+
+/* visually hide native input but keep it accessible */
+.file-input input[type="file"] {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* main upload button */
+.file-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(34,211,238,0.14), rgba(56,189,248,0.14));
+  border: 1px solid rgba(56,189,248,0.18);
+  color: #e6fcff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+  box-shadow: 0 6px 20px rgba(12, 85, 110, 0.18), inset 0 -1px 0 rgba(255,255,255,0.02);
+}
+.file-btn svg { color: #6ee7ff; opacity: 0.95; }
+.file-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(12,85,110,0.28), 0 0 18px rgba(34,211,238,0.06); }
+
+/* filename text */
+.file-name {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(148,163,184,0.06);
+  color: #cfeff7;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* clear button (small x) */
+.file-clear {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #ffd6d6;
+  padding: 6px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background .12s ease, transform .08s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.file-clear:hover { background: rgba(255,255,255,0.03); transform: translateY(-1px); }
+.file-clear.hidden { display:none; }
+
+/* focus accesibility */
+.file-btn:focus, .file-clear:focus { outline: 2px solid rgba(34,211,238,0.28); outline-offset:2px; }
+
+/* responsive tweak */
+@media (max-width: 480px) {
+  .file-name { font-size: 12px; }
+  .file-btn { padding: 9px 12px; }
+}
+
+/* ---------- QR output and placeholder ---------- */
+
+.qr-wrapper {
+  margin-top: 26px;
+  display: inline-flex;
+  padding: 16px;
+  border-radius: 24px;
+  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.8));
+  box-shadow:
+    0 0 40px rgba(34, 211, 238, 0.8),
+    0 0 80px rgba(59, 130, 246, 0.7);
+  filter: drop-shadow(0 0 24px rgba(56, 189, 248, 0.95));
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+.qr-wrapper.visible { opacity: 1; transform: translateY(0) scale(1); }
+
+/* placeholder square animation */
+.qr-placeholder {
+  width: 260px;
+  height: 260px;
+  border-radius: 24px;
+  background: radial-gradient(circle at top, #22d3ee, #3b82f6);
+  box-shadow:
+    0 0 35px rgba(34, 211, 238, 0.9),
+    0 0 70px rgba(59, 130, 246, 0.8);
+  animation: growSquare 2s ease-out forwards;
+}
+@keyframes growSquare {
+  0% { transform: translateY(-40px) scale(0.2); opacity: 0.2; }
+  40% { transform: translateY(0) scale(0.7); opacity: 0.9; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* download + share wrapper */
+.download-wrapper {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* error / validation */
+.invalid {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.5) !important;
+}
+.error-msg {
+  margin-top: 4px;
+  color: #f87171;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.error-msg {
+  display: block;
+  margin-top: 8px;
+  color: #f87171;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+/* ensure small-input-row lays out neatly */
+.small-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* code input (country code) - small pill */
+.code-input {
+  width: 86px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  text-align: center;
+  background: rgba(15,23,42,0.95);
+  border: 1px solid rgba(148,163,184,0.5);
+}
+
+/* flexible phone input */
+.flex-input {
+  flex: 1;
+}
+
+/* make error messages appear below the .section and not affect input layout */
+.error-msg {
+  display: block;
+  margin-top: 6px;
+  color: #f87171;
+  font-size: 12px;
+}
+
+
+
+/* animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* responsive */
+@media (max-width: 480px) {
+  .card { padding: 18px 14px 14px; }
+  .type-tab { flex: 1 1 calc(50% - 6px); }
+  .choose-root { flex-direction: column; gap: 14px; }
+  .qr-placeholder { width:220px; height:220px; }
+}
+
+/* optional: make text textarea a bit taller & mobile friendly */
+#text-message { min-height: 110px; resize: vertical; }
+
+/* optional: animate password section collapsing */
+#passwordSection { transition: max-height .18s ease, opacity .18s ease; overflow: hidden; }
+#passwordSection.hidden { max-height: 0; opacity: 0; padding: 0; margin: 0; }
+
+
+/* Instant URL small adjustments */
+.instant-card .input-with-paste { margin-top: 6px; }
+.instant-card .style-toggle { margin-top: 6px; }
+/* --- Instant QR centering tweaks --- */
+/* Ensure QR canvas fits nicely within the card/frame */
+#instant-qrOutput,
+.instant-qrOutput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0 auto;
+  padding: 12px; /* optional padding inside wrapper */
+  box-sizing: border-box;
+}
+
+/* Force canvas to respect container and not overflow */
+#instant-qrOutput canvas,
+.instant-qrOutput canvas {
+  width: 260px !important;
+  height: 260px !important;
+  max-width: 100%;
+  display: block;
+  box-sizing: border-box;
+  border-radius: 14px;
+}
+
+/* placeholder sizing matches final QR size */
+#instant-qrOutput .qr-placeholder {
+  width: 260px;
+  height: 260px;
+  border-radius: 14px;
+  margin: 0 auto;
+}
+
+/* keep wrapper's outer glow / padding visually balanced */
+#instant-qrOutput {
+  background: transparent; /* keep parent card background visible */
+}
+
+/* Slight responsive tweak: reduce size on small screens */
+@media (max-width: 420px) {
+  #instant-qrOutput canvas,
+  #instant-qrOutput .qr-placeholder {
+    width: 220px !important;
+    height: 220px !important;
+  }
+}
+
+
+/* ensure placeholder aligns center */
+#instant-qrOutput .qr-placeholder {
+  margin: 0 auto;
+}
+
+/* center the actual QR canvas appended by qr-code-styling */
+#instant-qrOutput canvas {
+  display: block;
+  margin: 0 auto;
+  border-radius: 16px;
+}
+
+/* instant action buttons row */
+.instant-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+}
+
+/* reuse .file-btn look for inline label */
+.file-btn-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(34,211,238,0.14), rgba(56,189,248,0.14));
+  border: 1px solid rgba(56,189,248,0.18);
+  color: #e6fcff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* immediate show/hide handled by JS, but keep small responsive tweaks */
+@media (min-width: 680px) {
+  #instant-qrOutput {
+    width: 320px;
+  }
+}
+
+/* ensure download/share buttons are full width like other buttons */
+#instant-downloadWrapper .download-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #22d3ee, #0ea5e9);
+  border: none;
+  color: #021018;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* small tweak so the instant input remains full width */
+#instant-input-url {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+

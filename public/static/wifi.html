@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Wi-Fi QR — QR Platform</title>
+
+  <!-- shared styling -->
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+
+  <!-- QR library -->
+  <script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+</head>
+<body>
+  <div class="container">
+
+    <div class="card">
+      <h1>Generate Wi-Fi QR</h1>
+
+      <div id="formInner">
+        <div class="section">
+          <label>WiFi Name (SSID):</label>
+          <input id="wifi-ssid" type="text" placeholder="MyNetwork"/>
+        </div>
+
+        <div class="section">
+          <label>Encryption:</label>
+          <select id="wifi-encryption">
+            <option value="WPA">WPA / WPA2</option>
+            <option value="WEP">WEP</option>
+            <option value="nopass">No password</option>
+          </select>
+        </div>
+
+        <div class="section" id="passwordSection">
+          <label>Password:</label>
+          <input id="wifi-password" type="text" placeholder="••••••••"/>
+        </div>
+
+        <div class="section">
+          <label class="label-title">QR Style</label>
+          <div class="style-toggle">
+            <button class="style-btn active" data-style="basic">Basic (B&W)</button>
+            <button class="style-btn" data-style="colored">Coloured</button>
+          </div>
+        </div>
+
+        <div class="section color-section hidden" id="color-section">
+          <label>Choose Color:</label>
+          <input type="color" id="colorPicker" value="#00f2ff"/>
+          <label>Choose Gradient Color (optional):</label>
+          <input type="color" id="gradientPicker" value="#ff00c8"/>
+        </div>
+
+        <div class="section">
+          <label>Add logo (optional):</label>
+          <div class="file-input" id="logoFileInput">
+            <input id="logoUpload" type="file" accept="image/*" />
+            <button type="button" id="logoBtn" class="file-btn">Upload logo</button>
+            <span id="logoName" class="file-name">No file chosen</span>
+            <button type="button" id="logoClear" class="file-clear hidden">✕</button>
+          </div>
+        </div>
+
+        <div class="section buttons-row">
+          <button id="btn-generate"><span class="btn-label">Generate QR</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div id="qrOutput" class="qr-wrapper"></div>
+
+    <div id="downloadWrapper" class="download-wrapper hidden">
+      <button id="btn-download"><span class="btn-label">Download OR CODE</span></button>
+      <button id="btn-share"><span class="btn-label">Share QR Code</span></button>
+    </div>
+  </div>
+
+  <!-- shared helpers then page script -->
+  <script src="../assets/js/common.js" defer></script>
+  <script src="../assets/js/wifi.js" defer></script>
+</body>
+</html>
